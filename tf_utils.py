@@ -143,7 +143,7 @@ def draw_bounding_box_on_image(image,
   draw.line([(left, top), (left, bottom), (right, bottom),
              (right, top), (left, top)], width=thickness, fill=color)
   try:
-    font = ImageFont.truetype('arial.ttf', 24)
+    font = ImageFont.truetype('arial.ttf', 18)
   except IOError:
     font = ImageFont.load_default()
 
@@ -163,11 +163,13 @@ def draw_bounding_box_on_image(image,
     text_width, text_height = font.getsize(display_str)
     margin = np.ceil(0.05 * text_height)
     draw.rectangle(
-        [(left, text_bottom - 2 * margin), (left + text_width,
-                                                          text_bottom + text_height)],
+        # [(left, text_bottom - 2 * margin), (left + text_width,
+                                                          # text_bottom + text_height)],
+        [(left, text_bottom - text_height - 2 * margin), (left + text_width,  text_bottom)],
         fill=color)
     draw.text(
-        (left + margin, text_bottom - margin),
+        # (left + margin, text_bottom - margin),
+        (left + margin, text_bottom - text_height - margin),
         display_str,
         fill='black',
         font=font)
