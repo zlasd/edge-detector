@@ -17,10 +17,10 @@ MODEL_NAME = 'ssdlite_mobilenet_v2_coco_2018_05_09'
 # MODEL_NAME = 'ssd_mobilenet_v1_0.75_depth_300x300_coco14_sync_2018_07_03'
 # MODEL_NAME = 'ssd_mobilenet_v1_ppn_shared_box_predictor_300x300_coco14_sync_2018_07_03'
 CWD_PATH = os.getcwd()
-PATH_TO_CKPT = os.path.join(CWD_PATH, 'env', MODEL_NAME, 'frozen_inference_graph.pb')
-IMG_NAME = random.choice(os.listdir('env/img'))
-IMG_PATH = os.path.join('env/img', IMG_NAME)
-LABELS_PATH = os.path.join(CWD_PATH,'env','mscoco_label_map.pbtxt')
+PATH_TO_CKPT = os.path.join(CWD_PATH, 'data/model', MODEL_NAME, 'frozen_inference_graph.pb')
+IMG_NAME = random.choice(os.listdir('data/test_img'))
+IMG_PATH = os.path.join('data/test_img', IMG_NAME)
+LABELS_PATH = os.path.join(CWD_PATH,'data','mscoco_label_map.pbtxt')
 NUM_CLASSES = 90
 
 label_map = tf_utils.load_labelmap(LABELS_PATH)
