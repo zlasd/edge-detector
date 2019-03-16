@@ -20,7 +20,7 @@ CWD_PATH = os.getcwd()
 PATH_TO_CKPT = os.path.join(CWD_PATH, 'data/model', MODEL_NAME, 'frozen_inference_graph.pb')
 IMG_NAME = random.choice(os.listdir('data/test_img'))
 IMG_PATH = os.path.join('data/test_img', IMG_NAME)
-LABELS_PATH = os.path.join(CWD_PATH,'data','mscoco_label_map.pbtxt')
+LABELS_PATH = os.path.join(CWD_PATH,'protos','mscoco_label_map.pbtxt')
 NUM_CLASSES = 90
 
 label_map = tf_utils.load_labelmap(LABELS_PATH)
