@@ -60,7 +60,8 @@ with tf.Session() as sess:
     FileNames = os.listdir(os.path.join(CWD_PATH, IMG_FOLDER))
     img_num=len(FileNames)
     ratios=np.zeros(img_num)
-
+    whr=np.zeros(img_num)
+    
     for j in range(img_num):
         IMG_PATH = os.path.join(IMG_FOLDER, FileNames[j])
         # Read and preprocess an image.
@@ -91,12 +92,16 @@ with tf.Session() as sess:
         # Visualize detected bounding boxes.
         num_detections = int(out[0][0])
         bboxs=np.zeros([num_detections,4])
+        count=0
         for i in range(num_detections):
             classId = int(out[3][0][i])
             score = float(out[1][0][i])
             bbox = [float(v) for v in out[2][0][i]]
             if classId==1:
-                bboxs[i]=bbox
+                if (bbox[2]-bbox[0])*rows/cols/(bbox[3]-bbox[1])<2:
+                    whr[j]=1
+                bboxs[count]=bbox
+                count=count+1
             # if score > 0.3:
                 # left = bbox[1] * cols
                 # top = bbox[0] * rows
@@ -105,8 +110,9 @@ with tf.Session() as sess:
                 # cv.rectangle(img, (int(left), int(top)), (int(right), int(bottom)), (0xff, 0xcc, 0x66), thickness=10)
         if(len(bboxs)>1):
             ratios[j]=my_utils.IoU(bboxs[0],bboxs[1])
-            count = np.sum(ratios[j-5:j] > 0.2)
-            if count >= 3:
+            count = np.sum(ratios[j - 5:j] > 0.1)
+            count_whrover = np.sum(whr[j - 5:j] == 1)
+            if count >= 2 and count_whrover >= 3:
                 visualize_fighting(img, bboxs)
         
         cv.imshow('TensorFlow MobileNet-SSD', inp)
