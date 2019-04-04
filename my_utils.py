@@ -1,9 +1,30 @@
-import tensorflow as tf
+
 import numpy as np
 
+def createGif(gifname, imlist):
+    from PIL import Image
+    import cv2
+    rgblist = list(map(lambda x: cv2.cvtColor(x, cv2.COLOR_BGR2RGB), imlist))
+    IMlist = list(map(lambda x: Image.fromarray(x), rgblist))
+    IMlist[0].save(gifname, format='GIF', save_all=True, append_images=IMlist[1:], duration=500, loop=0)
+    
+    
+def visualize_fighting(img, bboxs):
+    """ visualize fighting bounding box
+    """
+    import cv2
+    rows, cols = img.shape[:2]
+    top = min(bboxs[0][0], bboxs[1][0]) * rows
+    left = min(bboxs[0][1], bboxs[1][1]) * cols
+    bottom = max(bboxs[0][2], bboxs[1][2]) * rows
+    right = max(bboxs[0][3], bboxs[1][3]) * cols
+    cv2.rectangle(img, (int(left), int(top)), (int(right), int(bottom)), (0xff, 0xcc, 0x66), thickness=5)
+    
+    
 def printTensors(pb_file):
     """ https://stackoverflow.com/questions/35336648/list-of-tensor-names-in-graph-in-tensorflow/50620593#50620593
     """
+    import tensorflow as tf
     # read pb into graph_def
     with tf.gfile.GFile(pb_file, "rb") as f:
         graph_def = tf.GraphDef()
